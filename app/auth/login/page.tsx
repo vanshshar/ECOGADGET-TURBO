@@ -6,8 +6,74 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { FormEvent, useState } from "react"
+import Swal from 'sweetalert2';
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function LoginPage() {
+
+  const [loginData, setLoginData] = useState({
+    emailOrUsername: "",
+    password: ""
+  });
+
+  const router = useRouter();
+
+  const handleFormSubmit = async(e: FormEvent) => {
+    e.preventDefault();
+
+    const { emailOrUsername, password } = loginData;
+
+    if(!emailOrUsername || !password) {
+      await Swal.fire({
+        toast: true,
+        position: "top",
+        title: "Insufficient Login Credentials",
+        timer: 2000,
+        showDenyButton: false,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        icon: "error",
+        background: "#fccaca",
+        customClass: { popup: 'borderClass' }
+      });
+
+      setLoginData({ emailOrUsername: "", password: "" });
+
+      return;
+    }
+
+    const response = await axios({
+      method: "post",
+      url: "http://localhost:4000/login",
+      data: { emailOrUsername, password }
+    });
+
+    const result = response.data;
+
+    await Swal.fire({
+      title: result.msg,
+      showCancelButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      showConfirmButton: false,
+      position: 'top',
+      icon: result.success ? "success" : "info",
+      toast: true,
+      background: result.success ? '#caf5c1' : '#fccaca'
+    });
+
+    result.success ? router.push(`/`) : router.push(`/auth/login`);
+  }
+
+  const handleChange = async(e) => {
+    setLoginData((prevVal) => {
+      return { ...prevVal, [e.target.name]: e.target.value }
+    });
+  }
+
+
   return (
     <div 
       className="min-h-screen flex items-center justify-center bg-cover bg-center py-12 px-4 sm:px-6 lg:px-8"
@@ -26,14 +92,14 @@ export default function LoginPage() {
             <CardTitle className="text-2xl text-center">Welcome Back</CardTitle>
           </CardHeader>
           <CardContent>
-            <form className="space-y-4">
+            <form onSubmit={handleFormSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="Enter your email" required />
+                <Input onChange={handleChange} value={loginData.emailOrUsername} id="email" name="emailOrUsername" type="text" placeholder="Email or Username" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" placeholder="Enter your password" required />
+                <Input onChange={handleChange} value={loginData.password} id="password" name="password" type="password" placeholder="Password" />
               </div>
               <Button type="submit" className="w-full">
                 Sign In

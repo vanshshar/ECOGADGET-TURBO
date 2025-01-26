@@ -7,10 +7,59 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { FormEvent, useState } from "react"
+import Swal from 'sweetalert2';
+import axios from 'axios';
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
+
+  const [signupData, setSignupData] = useState({
+    firstName: "",
+    lastName: "",
+    password: "",
+    email: ""
+  });
+
+  const router = useRouter();
+
+  const handleFormSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    const { firstName, lastName, email, password } = signupData;
+    const username = firstName + " " + lastName;
+
+    const result = await axios({
+      method: "POST",
+      url: "http://localhost:4000/signup",
+      data: { email, username, password }
+    });
+
+    const response = result.data;
+
+    await Swal.fire({
+      title: response.msg,
+      toast: true,
+      timer: 2000,
+      timerProgressBar: true,
+      showCancelButton: false,
+      showConfirmButton: false,
+      position: "top",
+      icon: response.success ? "success" : "info",
+      background: response.success ? "#caf5c1" : "#fccaca"
+    });
+
+    return router.push(`/auth/login`);
+  }
+
+  const handleChange = async (e) => {
+    setSignupData((prevVal) => {
+      return { ...prevVal, [e.target.name]: e.target.value };
+    });
+  }
+
   return (
-    <div 
+    <div
       className="min-h-screen flex items-center justify-center bg-cover bg-center py-12 px-4 sm:px-6 lg:px-8"
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/placeholder.svg?height=1080&width=1920')`
@@ -27,24 +76,24 @@ export default function SignupPage() {
             <CardTitle className="text-2xl text-center">Create Account</CardTitle>
           </CardHeader>
           <CardContent>
-            <form className="space-y-4">
+            <form onSubmit={handleFormSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">First Name</Label>
-                  <Input id="firstName" placeholder="John" required />
+                  <Input onChange={handleChange} value={signupData.firstName} name="firstName" id="firstName" placeholder="John" required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" placeholder="Doe" required />
+                  <Input onChange={handleChange} value={signupData.lastName} name="lastName" id="lastName" placeholder="Doe" required />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="john@example.com" required />
+                <Input onChange={handleChange} value={signupData.email} name="email" id="email" type="email" placeholder="john@example.com" required />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" placeholder="Create a password" required />
+                <Input onChange={handleChange} value={signupData.password} name="password" id="password" type="password" placeholder="Create a password" required />
               </div>
               <div className="space-y-2">
                 <Label>Account Type</Label>
