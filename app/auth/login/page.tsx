@@ -64,6 +64,8 @@ export default function LoginPage() {
       background: result.success ? '#caf5c1' : '#fccaca'
     });
 
+    setLoginData({ emailOrUsername: '', password: '' });
+
     result.success ? router.push(`/`) : router.push(`/auth/login`);
   }
 
