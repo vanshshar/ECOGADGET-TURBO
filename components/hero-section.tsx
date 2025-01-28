@@ -4,6 +4,8 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import { ArrowRight, Recycle, DollarSign, Clock, Shield } from 'lucide-react'
 import { Button } from "@/components/ui/button"
+const eco2 = require("./eco2.png");
+
 
 export function HeroSection() {
   const fadeInUp = {
@@ -80,7 +82,7 @@ export function HeroSection() {
               <div className="relative mx-auto w-full rounded-lg shadow-lg lg:max-w-md">
                 <div className="relative block w-full rounded-lg overflow-hidden">
                   <Image
-                    src="/placeholder.svg?height=400&width=600"
+                    src={eco2}
                     alt="Sustainable technology"
                     width={600}
                     height={400}

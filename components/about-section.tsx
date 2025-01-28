@@ -4,23 +4,26 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import { Leaf, Recycle, Shield, Zap, BarChart, Users } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
+const eco = require("./eco.png");
+const eco3 = require("./eco3.png");
+const eco4 = require("./eco4.png");
 
 export function AboutSection() {
   const stats = [
     {
-      value: "50K+",
+      value: "Soon to be reflected",
       label: "Devices Recycled",
       description: "Keeping electronics out of landfills",
       icon: Recycle,
     },
     {
-      value: "30K+",
+      value: "Soon to be reflected",
       label: "Happy Users",
       description: "Building a sustainable community",
       icon: Users,
     },
     {
-      value: "₹25M+",
+      value: "Soon to be reflected",
       label: "User Savings",
       description: "Making technology affordable",
       icon: BarChart,
@@ -103,14 +106,14 @@ export function AboutSection() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-4">
                 <Image
-                  src="/placeholder.svg?height=300&width=250"
+                  src={eco}
                   alt="Refurbished devices"
                   width={250}
                   height={300}
                   className="rounded-lg shadow-xl"
                 />
                 <Image
-                  src="/placeholder.svg?height=200&width=250"
+                  src={eco3}
                   alt="Quality testing"
                   width={250}
                   height={200}
@@ -119,7 +122,7 @@ export function AboutSection() {
               </div>
               <div className="pt-8">
                 <Image
-                  src="/placeholder.svg?height=400&width=250"
+                  src={eco4}
                   alt="Sustainable packaging"
                   width={250}
                   height={400}
