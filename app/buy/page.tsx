@@ -8,6 +8,7 @@ import { FilterSidebar } from "@/components/filter-sidebar"
 import { Breadcrumb } from "@/components/breadcrumb"
 import { SortBar } from "@/components/sort-bar"
 
+
 export default function BuyPage() {
   const [filters, setFilters] = useState({
     category: [],

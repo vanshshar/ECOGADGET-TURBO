@@ -4,6 +4,9 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
+const iphone13 = require("./iphone13.png");
+const macbook = require("./macbookm1.png");
+const samsungs21 = require("./samsungs21.png");
 
 const deals = [
   {
@@ -11,7 +14,7 @@ const deals = [
     title: "Refurbished iPhone 13",
     price: 599,
     originalPrice: 799,
-    image: "/placeholder.svg?height=200&width=200",
+    image: iphone13,
     condition: "Like New",
     warranty: "1 Year"
   },
@@ -20,7 +23,7 @@ const deals = [
     title: "MacBook Air M1",
     price: 799,
     originalPrice: 999,
-    image: "/placeholder.svg?height=200&width=200",
+    image: macbook,
     condition: "Excellent",
     warranty: "1 Year"
   },
@@ -29,7 +32,7 @@ const deals = [
     title: "Samsung Galaxy S21",
     price: 449,
     originalPrice: 699,
-    image: "/placeholder.svg?height=200&width=200",
+    image: samsungs21,
     condition: "Good",
     warranty: "6 Months"
   }
@@ -58,7 +61,7 @@ export function FeaturedDeals() {
               <Card className="overflow-hidden">
                 <div className="relative h-48">
                   <Image
-                    src={deal.image || "/placeholder.svg"}
+                    src={deal.image}
                     alt={deal.title}
                     fill
                     className="object-cover"

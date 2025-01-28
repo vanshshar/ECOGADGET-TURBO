@@ -6,6 +6,7 @@ import { NavBar } from "@/components/nav-bar"
 import { ProductsGrid } from "@/components/products-grid"
 import { FilterSidebar } from "@/components/filter-sidebar"
 
+
 export default function RefurbishedGadgetsPage() {
   const [filters, setFilters] = useState({})
 

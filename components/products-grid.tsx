@@ -2,12 +2,16 @@
 
 import { motion } from 'framer-motion'
 import { ProductCard } from './product-card'
+const iphone13 = require("./iphone13.png");
+const macbook = require("./macbookm1.png");
+const samsungs21 = require("./samsungs21.png");
+
 
 const products = [
   {
     id: '1',
     title: 'Refurbished iPhone 13 Pro - 128GB',
-    image: '/placeholder.svg?height=400&width=400',
+    image: iphone13,
     price: 699.99,
     originalPrice: 999.99,
     rating: 4.5,
@@ -20,7 +24,7 @@ const products = [
   {
     id: '2',
     title: 'MacBook Air M1 - Certified Refurbished',
-    image: '/placeholder.svg?height=400&width=400',
+    image: macbook,
     price: 799.99,
     originalPrice: 999.99,
     rating: 4.8,
@@ -33,7 +37,7 @@ const products = [
   {
     id: '3',
     title: 'Samsung Galaxy S21 - Renewed',
-    image: '/placeholder.svg?height=400&width=400',
+    image: samsungs21,
     price: 449.99,
     originalPrice: 799.99,
     rating: 4.3,
