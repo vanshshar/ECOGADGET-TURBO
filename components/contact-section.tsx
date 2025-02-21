@@ -6,8 +6,47 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
+import { useState } from "react"
+import Swal from "sweetalert2";
+
 
 export function ContactSection() {
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    subject: "",
+    message: ""
+  });
+
+  const handleInputChange = (e) => {
+    setFormData((prevData) => {
+      return {
+        ...prevData,
+        [e.target.name]: e.target.value
+      }
+    });
+  }
+
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+    if(!formData.firstName || !formData.lastName || !formData.email || !formData.subject || !formData.message){
+      Swal.fire({
+        text: "Fill all fields properly!",
+        icon: "question"
+      });
+      return;
+    }
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if(!emailPattern.test(formData.email)){
+      Swal.fire({
+        text: "Email should be correct!",
+        icon: "question"
+      });
+    }
+  }
+
   return (
     <section className="py-24 bg-gray-50">
       <div className="container px-4 mx-auto">
@@ -36,29 +75,32 @@ export function ContactSection() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-sm font-medium">First Name</label>
-                      <Input placeholder="John" />
+                      <Input placeholder="John" name = "firstName" value={formData.firstName} onChange = {handleInputChange}/>
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Last Name</label>
-                      <Input placeholder="Doe" />
+                      <Input placeholder="Doe" name = "lastName" value={formData.lastName} onChange={handleInputChange}/>
                     </div>
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Email</label>
-                    <Input type="email" placeholder="john@example.com" />
+                    <Input type="email" name = "email" placeholder="john@example.com" value={formData.email} onChange={handleInputChange}/>
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Subject</label>
-                    <Input placeholder="How can we help?" />
+                    <Input placeholder="How can we help?" name = "subject" value={formData.subject} onChange={handleInputChange}/>
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Message</label>
                     <Textarea
                       placeholder="Your message..."
                       className="min-h-[150px]"
+                      name = "message"
+                      value={formData.message}
+                      onChange={handleInputChange}
                     />
                   </div>
-                  <Button type="submit" className="w-full">
+                  <Button type="submit" onClick={handleSubmit} className="w-full">
                     Send Message
                   </Button>
                 </form>
@@ -90,7 +132,7 @@ export function ContactSection() {
                     <Phone className="w-6 h-6 text-green-600 mt-1" />
                     <div>
                       <h3 className="font-medium mb-1">Call Us</h3>
-                      <p className="text-sm text-gray-600">+1 (555) 123-4567</p>
+                      <p className="text-sm text-gray-600">+91 6283425993</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
@@ -115,21 +157,7 @@ export function ContactSection() {
               </CardContent>
             </Card>
 
-            <Card>
-              <CardContent className="p-6">
-                <h3 className="font-medium mb-4">Connect With Us</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <Button variant="outline" className="w-full">
-                    <MessageSquare className="w-4 h-4 mr-2" />
-                    Live Chat
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    <Globe className="w-4 h-4 mr-2" />
-                    Support
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+           
           </motion.div>
         </div>
       </div>
