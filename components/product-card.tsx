@@ -2,12 +2,14 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { Heart } from 'lucide-react'
+import { Currency, Heart } from 'lucide-react'
 import { useState } from 'react'
 import { StarRating } from './star-rating'
 import { CountdownTimer } from './countdown-timer'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import axios from "axios";
+import { useEffect } from 'react'
 
 interface ProductCardProps {
   id: string
@@ -39,6 +41,13 @@ export function ProductCard({
   const [isSaved, setIsSaved] = useState(false)
   const savings = originalPrice - price
 
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -55,7 +64,7 @@ export function ProductCard({
         />
         {savings > 0 && (
           <Badge className="absolute top-2 right-2 bg-red-600">
-            Save ${savings.toFixed(2)}
+            Save ₹{savings.toFixed(2)}
           </Badge>
         )}
       </div>
@@ -68,10 +77,10 @@ export function ProductCard({
         <StarRating rating={rating} reviewCount={reviewCount} />
 
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-bold">${price.toFixed(2)}</span>
+          <span className="text-2xl font-bold">₹{price.toFixed(2)}</span>
           {originalPrice > price && (
             <span className="text-sm text-gray-500 line-through">
-              Was ${originalPrice.toFixed(2)}
+              Was ₹{originalPrice.toFixed(2)}
             </span>
           )}
         </div>
@@ -92,11 +101,35 @@ export function ProductCard({
         <div className="flex gap-2">
           <Button 
             className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black"
-            onClick={() => {
-              // Add to cart logic here
+            onClick={
+              async (e) => {
+
+              let amount: number | string = price.toString();
+                // "699.99"
+                // [0] = 699 [1] = 99;
+                // amount 
+              amount = amount.split(".")[0] + amount.split(".")[1];
+              amount = Number(amount);
+                
+              const response1: any = await axios.post("http://localhost:4000/orders/create", {
+                amount, currency:"INR"
+              });
+
+              const options = {
+                "key": response1.data.key,
+                "amount": response1.data.amount,
+                "currency": "INR",
+                "name": "EcoGadget",
+                "order_id": response1.data.id,
+                "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/"
+              };
+
+              const rzp1 = new window.Razorpay(options);
+              rzp1.open();
+              e.preventDefault();
             }}
           >
-            Add to Cart
+            Buy Now
           </Button>
           <Button
             variant="outline"
