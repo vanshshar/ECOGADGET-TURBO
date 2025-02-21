@@ -4,9 +4,8 @@ import { useState } from "react"
 import { Menu, Search, ShoppingCart, User, CreditCard, Package, Headphones, Settings, LogOut } from "lucide-react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
-
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -15,14 +14,13 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import { Separator } from "@/components/ui/separator"
 
 export function NavBar() {
   const [showAuthOptions, setShowAuthOptions] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
+    <header className="px-10 sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 justify-between items-center">
         <Button variant="ghost" className="mr-4 md:hidden">
           <Menu className="h-6 w-6" />
           <span className="sr-only">Toggle menu</span>
@@ -84,23 +82,9 @@ export function NavBar() {
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="http://localhost:8080/join-revolution?" legacyBehavior passHref>
-                <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-green-500 px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
-                  Li-Refinery
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
         <div className="flex items-center ml-auto space-x-4">
-          <form className="hidden lg:flex">
-            <Input type="search" placeholder="Search devices..." className="w-[300px] mr-2" />
-            <Button type="submit" size="icon" variant="ghost">
-              <Search className="h-4 w-4" />
-              <span className="sr-only">Search</span>
-            </Button>
-          </form>
           <div className="relative">
             <Button variant="ghost" size="icon" onClick={() => setShowAuthOptions(!showAuthOptions)}>
               <User className="h-5 w-5" />

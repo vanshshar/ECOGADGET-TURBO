@@ -39,7 +39,7 @@ const repairWorkers = [
 
 export function RepairWorkers() {
   return (
-    <section className="py-16 bg-white">
+    <section className="p-20 bg-white">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

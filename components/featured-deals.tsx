@@ -40,7 +40,7 @@ const deals = [
 
 export function FeaturedDeals() {
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="p-20 bg-gray-50">
       <div className="container">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}

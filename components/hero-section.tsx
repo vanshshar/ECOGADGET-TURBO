@@ -4,10 +4,17 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import { ArrowRight, Recycle, DollarSign, Clock, Shield } from 'lucide-react'
 import { Button } from "@/components/ui/button"
+import { useRef } from "react"
 const eco2 = require("./eco2.png");
 
 
 export function HeroSection() {
+  const btnRef = useRef(null);
+
+  const handleGetStarted = () => {
+    btnRef.current?.scrollIntoView({ behaviour: "smooth" });
+  }
+
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
