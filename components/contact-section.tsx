@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
 import { useState } from "react"
 import Swal from "sweetalert2";
+import axios from "axios"
 
 
 export function ContactSection() {
@@ -29,7 +30,7 @@ export function ContactSection() {
     });
   }
 
-  const handleSubmit = (e)=>{
+  const handleSubmit = async(e)=>{
     e.preventDefault();
     if(!formData.firstName || !formData.lastName || !formData.email || !formData.subject || !formData.message){
       Swal.fire({
@@ -45,6 +46,25 @@ export function ContactSection() {
         icon: "question"
       });
     }
+
+    const response = await axios.post("http://localhost:4000/contact", formData);
+    if(response.data.success){
+      Swal.fire({
+        toast: true,
+        icon: "success",
+        text: "We'll soon reach you out through your email!",
+        position: "top",
+        timer: 5000,
+        showConfirmButton: false
+      });
+      
+    }
+
+    setFormData({firstName: "",
+      lastName: "",
+      email: "",
+      subject: "",
+      message: ""})
   }
 
   return (
