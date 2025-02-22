@@ -38,9 +38,9 @@ const deals = [
   }
 ]
 
-export function FeaturedDeals() {
+export function FeaturedDeals({ sectionRef }) {
   return (
-    <section className="p-20 bg-gray-50">
+    <section  ref={sectionRef} className="p-20 bg-gray-50">
       <div className="container">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}

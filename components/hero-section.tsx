@@ -8,12 +8,7 @@ import { useRef } from "react"
 const eco2 = require("./eco2.png");
 
 
-export function HeroSection() {
-  const btnRef = useRef(null);
-
-  const handleGetStarted = () => {
-    btnRef.current?.scrollIntoView({ behaviour: "smooth" });
-  }
+export function HeroSection({ sectionRef, learnMoreRef }) {
 
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
@@ -44,6 +39,14 @@ export function HeroSection() {
     }
   ]
 
+  const handleScroll = (e) => {
+    sectionRef.current.scrollIntoView({ behaviour: "smooth" });
+  }
+
+  const handleLearnMoreScroll = (e) => {
+    learnMoreRef.current.scrollIntoView({ behaviour: "smooth" });
+  }
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-green-50 to-white">
       <div className="relative pt-16 pb-32">
@@ -70,11 +73,11 @@ export function HeroSection() {
               </p>
               <div className="mt-8 sm:max-w-lg sm:mx-auto lg:mx-0">
                 <div className="space-y-4 sm:space-y-0 sm:flex sm:gap-4">
-                  <Button size="lg" className="w-full sm:w-auto bg-green-600 hover:bg-green-700">
+                  <Button onClick={handleScroll} size="lg" className="w-full sm:w-auto bg-green-600 hover:bg-green-700">
                     Get Started
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
-                  <Button size="lg" variant="outline" className="w-full sm:w-auto">
+                  <Button onClick={handleLearnMoreScroll} size="lg" variant="outline" className="w-full sm:w-auto">
                     Learn More
                   </Button>
                 </div>

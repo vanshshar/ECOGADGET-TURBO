@@ -1,3 +1,5 @@
+"use client";
+
 import { NavBar } from "@/components/nav-bar"
 import { HeroSection } from "@/components/hero-section"
 import { CategoryScroll } from "@/components/category-scroll"
@@ -7,15 +9,20 @@ import { RepairWorkers } from "@/components/repair-workers"
 import { ContactSection } from "@/components/contact-section"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useRef } from "react"
 
 export default function Home() {
+  const sectionRef = useRef(null);
+
+  const learnMoreRef = useRef(null);
+
   return (
     <div className="min-h-screen">
       <NavBar />
       <main>
-        <HeroSection />
+        <HeroSection sectionRef={sectionRef} learnMoreRef={learnMoreRef} />
         <CategoryScroll />
-        <FeaturedDeals />
+        <FeaturedDeals sectionRef={sectionRef} />
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold mb-8 text-center">Borrow Devices</h2>
@@ -34,7 +41,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <AboutSection />
+        <AboutSection learnMoreRef={learnMoreRef} />
         <RepairWorkers />
         <ContactSection />
       </main>

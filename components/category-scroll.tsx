@@ -21,7 +21,7 @@ const categories = [
 export function CategoryScroll() {
 
   return (
-    <div className="p-20 bg-white">
+    <div className="px-20 pb-20 bg-white">
       <div className="container">
         <h2 className="text-2xl font-bold mb-6">Shop by Category</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">

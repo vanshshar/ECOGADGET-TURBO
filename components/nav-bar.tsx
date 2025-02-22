@@ -1,7 +1,6 @@
 "use client"
-
 import { useState } from "react"
-import { Menu, Search, ShoppingCart, User, CreditCard, Package, Headphones, Settings, LogOut } from "lucide-react"
+import { Menu, User, CreditCard, Package, Headphones, Settings, LogOut } from "lucide-react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
@@ -16,7 +15,7 @@ import {
 } from "@/components/ui/navigation-menu"
 
 export function NavBar() {
-  const [showAuthOptions, setShowAuthOptions] = useState(false)
+  const [showAuthOptions, setShowAuthOptions] = useState(false);
 
   return (
     <header className="px-10 sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -153,10 +152,6 @@ export function NavBar() {
               )}
             </AnimatePresence>
           </div>
-          <Button variant="ghost" size="icon">
-            <ShoppingCart className="h-5 w-5" />
-            <span className="sr-only">Cart</span>
-          </Button>
         </div>
       </div>
     </header>
