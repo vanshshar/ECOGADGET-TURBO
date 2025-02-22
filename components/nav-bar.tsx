@@ -13,9 +13,40 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
+import axios from 'axios';
+import { useUser } from '../context/AuthContext.jsx';
+import Swal from 'sweetalert2';
+
 
 export function NavBar() {
   const [showAuthOptions, setShowAuthOptions] = useState(false);
+
+  const user = useUser();
+
+  const handleLogoutClick = async (e) => {
+    e.preventDefault();
+
+    const result = await axios({
+      method: "post",
+      data: { user } ,
+      withCredentials: true,
+      url: 'http://localhost:4000/logout'
+    });
+    const response = result.data;
+
+    await Swal.fire({
+      toast: true,
+      timer: 2000,
+      timerProgressBar: true,
+      title: response.msg,
+      icon: response.success ? 'success' : 'warning',
+      showConfirmButton: false,
+      color: response.success ? '#bff79e' : '#f7a49e',
+      position: 'top'
+    });
+
+    { window.location.href = 'http://localhost:3000/' };
+  }
 
   return (
     <header className="px-10 sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -125,11 +156,11 @@ export function NavBar() {
                     </div>
                     <div className="space-y-3">
                       <Button className="w-full bg-green-600 hover:bg-green-700" asChild>
-                        <Link href="/auth/login">Sign In</Link>
+                        {user ? <h1>{user.username}</h1> : <Link href="/auth/login">Sign In</Link>}
                       </Button>
-                      <Button variant="outline" className="w-full" asChild>
+                      {user ? <Button onClick={handleLogoutClick} variant="outline" className="w-full" asChild><p>Logout</p></Button> : <Button variant="outline" className="w-full" asChild>
                         <Link href="/auth/signup">Create Account</Link>
-                      </Button>
+                      </Button>}
                     </div>
                   </div>
                   <div className="border-t px-6 py-4">
