@@ -71,7 +71,7 @@ export function ProductCard({
 
       <div className="p-4 space-y-3">
         <div className="min-h-[2.5rem]">
-          <h3 className="font-medium text-sm line-clamp-2">{title}</h3>
+          <h3 className="font-bold text-md">{title}</h3>
         </div>
 
         <StarRating rating={rating} reviewCount={reviewCount} />
@@ -84,7 +84,7 @@ export function ProductCard({
             </span>
           )}
         </div>
-
+        <p className='text-sm font-normal text-red-500'>Deal ends soon!</p>
         <div className="space-y-2 text-sm text-gray-600">
           <p>Condition: {condition}</p>
           <p>Warranty: {warranty}</p>
@@ -96,15 +96,18 @@ export function ProductCard({
           </div>
         )}
 
-        <CountdownTimer endTime={endTime} />
+        
 
         <div className="flex gap-2">
           <Button 
             className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black"
             onClick={
               async (e) => {
-
               let amount: number | string = price.toString();
+              amount = parseFloat(amount);
+              amount = amount.toFixed(2).toString();
+
+              console.log(amount);
                 // "699.99"
                 // [0] = 699 [1] = 99;
                 // amount 
@@ -121,7 +124,7 @@ export function ProductCard({
                 "currency": "INR",
                 "name": "EcoGadget",
                 "order_id": response1.data.id,
-                "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/"
+                "callback_url": "/orders"
               };
 
               const rzp1 = new window.Razorpay(options);
