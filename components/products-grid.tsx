@@ -12,7 +12,7 @@ const products = [
     id: '1',
     title: 'Refurbished iPhone 13 Pro - 128GB',
     image: iphone13,
-    price: 699.99,
+    price: 1.00,
     originalPrice: 999.99,
     rating: 4.5,
     reviewCount: 128,
@@ -43,6 +43,7 @@ const products = [
     rating: 4.3,
     reviewCount: 89,
     endTime: '2025-01-16T19:22:05',
+    freeItems: ['Premium Case', 'Screen Protector'],
     condition: 'Good',
     warranty: '6 Months'
   }
@@ -50,7 +51,7 @@ const products = [
 
 export function ProductsGrid() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
       {products.map((product, index) => (
         <motion.div
           key={product.id}
