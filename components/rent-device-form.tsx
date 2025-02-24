@@ -10,15 +10,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { StarIcon, MapPinIcon, CalendarIcon, Search } from "lucide-react"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import mac from '@/components/macbookm1.png';
+import sam from '@/components/samsungs21.png';
+import iphone from '@/components/iphone13.png';
 
 const devices = [
   {
     id: 1,
     name: "iPhone 12 Pro",
     images: [
-      "/placeholder.svg?height=300&width=300",
-      "/placeholder.svg?height=300&width=300",
-      "/placeholder.svg?height=300&width=300",
+      iphone
     ],
     description: "Latest iPhone model with advanced camera system and 5G capability.",
     price: 25,
@@ -29,9 +30,7 @@ const devices = [
     id: 2,
     name: 'MacBook Pro 16"',
     images: [
-      "/placeholder.svg?height=300&width=300",
-      "/placeholder.svg?height=300&width=300",
-      "/placeholder.svg?height=300&width=300",
+      mac
     ],
     description: "Powerful laptop with Retina display and long battery life.",
     price: 50,
@@ -42,9 +41,7 @@ const devices = [
     id: 3,
     name: "Sony A7 III",
     images: [
-      "/placeholder.svg?height=300&width=300",
-      "/placeholder.svg?height=300&width=300",
-      "/placeholder.svg?height=300&width=300",
+      sam
     ],
     description: "Full-frame mirrorless camera with excellent low-light performance.",
     price: 40,

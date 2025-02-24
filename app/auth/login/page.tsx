@@ -66,8 +66,11 @@ export default function LoginPage() {
     });
 
     setLoginData({ emailOrUsername: '', password: '' });
-
-    result.success ? router.push(`/`) : router.push(`/auth/login`);
+    if(result.success) {
+      window.location.href = "http://localhost:3000/";
+    } else {
+      window.location.href = "http://localhost:3000/auth/login";
+    }
   }
 
   const handleChange = async(e) => {
