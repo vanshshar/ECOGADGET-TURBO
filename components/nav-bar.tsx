@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Menu, User, CreditCard, Package, Headphones, Settings, LogOut } from "lucide-react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
@@ -19,7 +19,21 @@ import Swal from 'sweetalert2';
 
 
 export function NavBar() {
+   const dropdownRef = useRef(null);
   const [showAuthOptions, setShowAuthOptions] = useState(false);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowAuthOptions(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const user = useUser();
 
@@ -60,7 +74,16 @@ export function NavBar() {
         </Link>
         <NavigationMenu className="hidden md:flex">
           <NavigationMenuList>
-            <NavigationMenuItem>
+
+          <NavigationMenuItem>
+              <Link href="/buy/refurbished" legacyBehavior passHref>
+                <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
+                  Buy
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+
+            {/* <NavigationMenuItem>
               <NavigationMenuTrigger>Buy</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <div className="grid gap-3 p-6 w-[400px] md:w-[500px] lg:w-[600px]">
@@ -74,8 +97,17 @@ export function NavBar() {
                   </Link>
                 </div>
               </NavigationMenuContent>
-            </NavigationMenuItem>
+            </NavigationMenuItem> */}
+
             <NavigationMenuItem>
+              <Link href="/sell/device" legacyBehavior passHref>
+                <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
+                  Sell
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+
+            {/* <NavigationMenuItem>
               <NavigationMenuTrigger>Sell</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <div className="grid gap-3 p-6 w-[400px] md:w-[500px] lg:w-[600px]">
@@ -89,7 +121,7 @@ export function NavBar() {
                   </Link>
                 </div>
               </NavigationMenuContent>
-            </NavigationMenuItem>
+            </NavigationMenuItem> */}
             <NavigationMenuItem>
               <NavigationMenuTrigger>Borrow</NavigationMenuTrigger>
               <NavigationMenuContent>
@@ -104,13 +136,33 @@ export function NavBar() {
                   </Link>
                 </div>
               </NavigationMenuContent>
+
+              
             </NavigationMenuItem>
-            <NavigationMenuItem>
+            {/* <NavigationMenuItem>
               <Link href="/repair" legacyBehavior passHref>
                 <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
                   Repair
                 </NavigationMenuLink>
               </Link>
+            </NavigationMenuItem> */}
+
+
+            
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Repair</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div className="grid gap-3 p-6 w-[400px] md:w-[500px] lg:w-[600px]">
+                  <Link href="/repair" className="group grid gap-1 p-4 hover:bg-muted rounded-lg">
+                    <div className="font-medium">Schedule a Repair</div>
+                    <div className="text-sm text-muted-foreground">Get your devices fixed by experts</div>
+                  </Link>
+                  <Link href="/repair" className="group grid gap-1 p-4 hover:bg-muted rounded-lg">
+                    <div className="font-medium">Join as a Technician</div>
+                    <div className="text-sm text-muted-foreground">Become a certified repair professional</div>
+                  </Link>
+                </div>
+              </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
@@ -123,6 +175,7 @@ export function NavBar() {
             <AnimatePresence>
               {showAuthOptions && (
                 <motion.div
+                ref={dropdownRef}
                   initial={{ opacity: 0, y: 10, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}

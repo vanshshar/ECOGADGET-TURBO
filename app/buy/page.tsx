@@ -30,10 +30,10 @@ export default function BuyPage() {
           ]} 
         />
         <div className="flex gap-8 mt-4">
-          <FilterSidebar filters={filters} setFilters={setFilters} />
+          {/* <FilterSidebar filters={filters} setFilters={setFilters} /> */}
           <div className="flex-1">
             <SortBar sort={sort} setSort={setSort} totalResults={569} />
-            <ProductList filters={filters} sort={sort} />
+            <ProductList />
           </div>
         </div>
       </main>
