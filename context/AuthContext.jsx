@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
                 const result = await axios({
                     method: "get",
                     url: "http://localhost:4000/user",
+                    withCredentials: true,
                 });
 
                 const response = result.data;
