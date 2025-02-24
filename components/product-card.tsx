@@ -44,9 +44,11 @@ export function ProductCard({
 
   const user = useUser();
 
-  if(!user) {
-    window.location.href = "http://localhost:3000/auth/login";
-  }
+  useEffect(() => {
+    if(!user) {
+      window.location.href = "http://localhost:3000/auth/login";
+    }
+  }, [user]);
 
   useEffect(() => {
     const script = document.createElement("script");
