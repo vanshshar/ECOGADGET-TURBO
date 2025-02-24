@@ -9,9 +9,16 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Wrench, UserCircle } from 'lucide-react'
+import { useUser } from '@/context/AuthContext'
 
 export default function RepairPage() {
   const [activeTab, setActiveTab] = useState("user")
+
+  const user = useUser();
+
+  if(!user) {
+    window.location.href = "http://localhost:3000/auth/login";
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

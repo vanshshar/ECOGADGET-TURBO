@@ -4,8 +4,14 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { NavBar } from "@/components/nav-bar"
 import { LongTermLeasingForm } from "@/components/long-term-leasing-form"
+import { useUser } from '@/context/AuthContext'
 
 export default function LongTermLeasingPage() {
+  const user = useUser();
+
+  if(!user) {
+    window.location.href = 'http://localhost:3000/auth/login';
+  }
   return (
     <div className="min-h-screen bg-gray-50">
       <NavBar />

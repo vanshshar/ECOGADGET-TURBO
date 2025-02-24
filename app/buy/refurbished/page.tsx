@@ -5,10 +5,16 @@ import { motion } from 'framer-motion'
 import { NavBar } from "@/components/nav-bar"
 import { ProductsGrid } from "@/components/products-grid"
 import { FilterSidebar } from "@/components/filter-sidebar"
+import { useUser } from '@/context/AuthContext'
 
 
 export default function RefurbishedGadgetsPage() {
   const [filters, setFilters] = useState({})
+  const user = useUser();
+
+  if(!user) {
+    window.location.href = "http://localhost:3000/auth/login";
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

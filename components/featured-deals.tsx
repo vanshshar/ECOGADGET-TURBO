@@ -7,6 +7,9 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 const iphone13 = require("./iphone13.png");
 const macbook = require("./macbookm1.png");
 const samsungs21 = require("./samsungs21.png");
+import axios from 'axios';
+import { Button } from '@/components/ui/button'
+import { useEffect } from "react"
 
 const deals = [
   {
@@ -39,10 +42,18 @@ const deals = [
 ]
 
 export function FeaturedDeals({ sectionRef }) {
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
   return (
-    <section  ref={sectionRef} className="p-20 bg-gray-50">
+    <section ref={sectionRef} className="p-20 bg-gray-50">
       <div className="container">
-        <motion.h2 
+        <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -73,18 +84,50 @@ export function FeaturedDeals({ sectionRef }) {
                 <CardContent className="pt-4">
                   <h3 className="text-lg font-semibold">{deal.title}</h3>
                   <div className="flex items-center gap-2 mt-2">
-                    <span className="text-2xl font-bold text-green-600">${deal.price}</span>
-                    <span className="text-sm text-gray-500 line-through">${deal.originalPrice}</span>
+                    <span className="text-2xl font-bold text-green-600">₹{deal.price}</span>
+                    <span className="text-sm text-gray-500 line-through">₹{deal.originalPrice}</span>
                   </div>
                   <div className="mt-2 space-y-1">
                     <p className="text-sm text-gray-600">Condition: {deal.condition}</p>
                     <p className="text-sm text-gray-600">Warranty: {deal.warranty}</p>
                   </div>
                 </CardContent>
-                <CardFooter className="border-t bg-gray-50">
+                <CardFooter className="border-t mt-8 pt-2 bg-gray-50">
                   <div className="flex items-center justify-between w-full">
                     <Badge variant="outline">Free Shipping</Badge>
                     <Badge variant="outline" className="bg-green-50">In Stock</Badge>
+                  </div>
+                  <div>
+                    <Button
+                      className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black"
+                      onClick={
+                        async (e) => {
+                          let amount: number | string = deal.price.toString();
+                          amount = parseFloat(amount);
+                          amount = amount.toFixed(2).toString();
+                          amount = amount.split(".")[0] + amount.split(".")[1];
+                          amount = Number(amount);
+
+                          const response1: any = await axios.post("http://localhost:4000/orders/create", {
+                            amount, currency: "INR"
+                          });
+
+                          const options = {
+                            "key": response1.data.key,
+                            "amount": response1.data.amount,
+                            "currency": "INR",
+                            "name": "EcoGadget",
+                            "order_id": response1.data.id,
+                            "callback_url": "/checkout"
+                          };
+
+                          const rzp1 = new window.Razorpay(options);
+                          rzp1.open();
+                          e.preventDefault();
+                        }}
+                    >
+                      Buy Now
+                    </Button>
                   </div>
                 </CardFooter>
               </Card>

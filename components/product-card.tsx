@@ -9,6 +9,7 @@ import { CountdownTimer } from './countdown-timer'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import axios from "axios";
+import { useUser } from '@/context/AuthContext'
 import { useEffect } from 'react'
 
 interface ProductCardProps {
@@ -40,6 +41,12 @@ export function ProductCard({
 }: ProductCardProps) {
   const [isSaved, setIsSaved] = useState(false)
   const savings = originalPrice - price
+
+  const user = useUser();
+
+  if(!user) {
+    window.location.href = "http://localhost:3000/auth/login";
+  }
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -106,11 +113,6 @@ export function ProductCard({
               let amount: number | string = price.toString();
               amount = parseFloat(amount);
               amount = amount.toFixed(2).toString();
-
-              console.log(amount);
-                // "699.99"
-                // [0] = 699 [1] = 99;
-                // amount 
               amount = amount.split(".")[0] + amount.split(".")[1];
               amount = Number(amount);
                 
@@ -124,7 +126,27 @@ export function ProductCard({
                 "currency": "INR",
                 "name": "EcoGadget",
                 "order_id": response1.data.id,
-                "callback_url": "/orders"
+                // "handler": async function (res: any) {
+
+                //     console.log(res);
+
+                //     const result = await axios({
+                //       method: "post",
+                //       data: {
+                //         orderId: res.razorpay_order_id,
+                //         amount: amount,
+                //         razorpaySignature: res.razorpay_signature,
+                //         paymentId: res.razorpay_payment_id,
+                //         receiver: user.id,
+                //       },
+                //       url: "http://localhost:4000/orders/checkout"
+                //     });
+
+                //     const response: any = await result.data;
+                    
+                //     console.log(response);
+                // }
+                "callback_url": "http://localhost:3000/orders"
               };
 
               const rzp1 = new window.Razorpay(options);

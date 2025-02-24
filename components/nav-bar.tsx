@@ -130,13 +130,13 @@ export function NavBar() {
                   className="absolute right-0 mt-2 w-[380px] rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
                   <div className="p-6">
-                    <div className="flex items-center space-x-4 mb-6">
+                    { !user && <div className="flex items-center space-x-4 mb-6">
                       <User className="h-8 w-8 text-green-600" />
                       <div>
                         <h3 className="text-lg font-semibold">Get more with an account</h3>
                       </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4 mb-6">
+                    </div> }
+                    { !user && <div className="grid grid-cols-2 gap-4 mb-6">
                       <div className="flex items-start space-x-3">
                         <Package className="h-5 w-5 text-green-600 mt-0.5" />
                         <span className="text-sm">Free shipping on orders $35+</span>
@@ -153,7 +153,7 @@ export function NavBar() {
                         <Settings className="h-5 w-5 text-green-600 mt-0.5" />
                         <span className="text-sm">Order tracking</span>
                       </div>
-                    </div>
+                    </div> }
                     <div className="space-y-3">
                       <Button className="w-full bg-green-600 hover:bg-green-700" asChild>
                         {user ? <h1>{user.username}</h1> : <Link href="/auth/login">Sign In</Link>}
@@ -171,12 +171,12 @@ export function NavBar() {
                       </Link>
                       <Link href="/orders" className="flex items-center space-x-3 text-sm hover:text-green-600">
                         <Package className="h-5 w-5" />
-                        <span>Orders & Returns</span>
+                        <Link href="/orders">Your Orders</Link>
                       </Link>
-                      <Link href="/payments" className="flex items-center space-x-3 text-sm hover:text-green-600">
+                      {/* <Link href="/payments" className="flex items-center space-x-3 text-sm hover:text-green-600">
                         <CreditCard className="h-5 w-5" />
                         <span>Payment Methods</span>
-                      </Link>
+                      </Link> */}
                     </div>
                   </div>
                 </motion.div>

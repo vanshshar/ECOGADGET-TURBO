@@ -21,7 +21,6 @@ export default function Home() {
       <NavBar />
       <main>
         <HeroSection sectionRef={sectionRef} learnMoreRef={learnMoreRef} />
-        <CategoryScroll />
         <FeaturedDeals sectionRef={sectionRef} />
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
