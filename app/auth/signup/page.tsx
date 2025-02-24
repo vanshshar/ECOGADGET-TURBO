@@ -18,7 +18,8 @@ export default function SignupPage() {
     firstName: "",
     lastName: "",
     password: "",
-    email: ""
+    email: "",
+    address: ""
   });
 
   const router = useRouter();
@@ -26,13 +27,13 @@ export default function SignupPage() {
   const handleFormSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const { firstName, lastName, email, password } = signupData;
+    const { firstName, lastName, email, password, address } = signupData;
     const username = firstName + " " + lastName;
 
     const result = await axios({
       method: "POST",
       url: "http://localhost:4000/signup",
-      data: { email, username, password }
+      data: { email, username, password, address }
     });
 
     const response = result.data;
@@ -90,6 +91,11 @@ export default function SignupPage() {
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input onChange={handleChange} value={signupData.email} name="email" id="email" type="email" placeholder="john@example.com" required />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="email">Address<p className="muted text-[12px] inline pl-4">(You can change this anytime before placing order)</p></Label>
+                <Input onChange={handleChange} value={signupData.address} name="address" id="address" type="address" placeholder="Street City, State" required />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
