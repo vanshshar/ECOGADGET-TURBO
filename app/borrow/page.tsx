@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { NavBar } from "@/components/nav-bar"
 import { RentDeviceForm } from "@/components/rent-device-form"
 import { GiveDeviceForm } from "@/components/give-device-form"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
+import { useUser } from "@/context/AuthContext"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -15,6 +16,15 @@ const fadeInUp = {
 }
 
 export default function BorrowPage() {
+
+  const user = useUser();
+
+  useEffect(() => {
+    if(!user) {
+      window.location.href = "http://localhost:3000/auth/login";
+    }
+  }, [user]);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <NavBar />
