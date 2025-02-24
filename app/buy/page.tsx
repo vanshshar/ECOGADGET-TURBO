@@ -31,7 +31,7 @@ export default function RefurbishedGadgetsPage() {
         >
           <h1 className="text-3xl font-bold mb-8">Buy Gadgets</h1>
           <div className="ml-32 grid grid-cols-1 lg:grid-cols-[1000px_1fr] gap-8">
-            <ProductsGrid key={0} category="refurbished" />
+            <ProductsGrid key={0} />
           </div>
         </motion.div>
       </main>
