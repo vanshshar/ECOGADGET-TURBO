@@ -89,8 +89,8 @@ export function RepairWorkers() {
                   </div>
                 </CardContent>
                 <CardFooter className="border-t">
-                  <Button className="w-full" disabled={!worker.available}>
-                    {worker.available ? "Book Repair" : "Currently Unavailable"}
+                  <Button className="w-full" disabled>
+                  Currently Unavailable
                   </Button>
                 </CardFooter>
               </Card>
