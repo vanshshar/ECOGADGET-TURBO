@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
+import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export function SellDeviceForm() {
   const [formData, setFormData] = useState({
@@ -27,10 +29,56 @@ export function SellDeviceForm() {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    // Here you would typically send the form data to your server
-    console.log('Form submitted:', formData)
-    // Implement the API call to submit the device for sale
+    e.preventDefault();
+
+    if (!formData.askingPrice || !formData.brand || !formData.condition || !formData.description || !formData.deviceType || !formData.model) {
+      await Swal.fire({
+        title: "Invalid Credentials",
+        icon: 'warning',
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true
+      });
+
+      setFormData({
+        deviceType: '',
+        brand: '',
+        model: '',
+        condition: '',
+        description: '',
+        askingPrice: '',
+      });
+
+      return;
+    }
+
+    const result = await axios({
+      method: "post",
+      data: formData,
+      url: "http://localhost:4000/sell",
+    });
+
+    const response = result.data;
+
+    await Swal.fire({
+      title: response.msg,
+      icon: response.success ? 'success' : 'error',
+      showConfirmButton: true,
+      position: 'center'
+    });
+
+    setFormData({
+      deviceType: '',
+      brand: '',
+      model: '',
+      condition: '',
+      description: '',
+      askingPrice: '',
+    });
+
+    return;
   }
 
   return (
@@ -44,7 +92,6 @@ export function SellDeviceForm() {
       <div className="space-y-2">
         <Label htmlFor="deviceType">Device Type</Label>
         <Select
-          id="deviceType"
           name="deviceType"
           value={formData.deviceType}
           onValueChange={(value) => setFormData(prevState => ({ ...prevState, deviceType: value }))}
@@ -117,7 +164,7 @@ export function SellDeviceForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="askingPrice">Asking Price ($)</Label>
+        <Label htmlFor="askingPrice">Asking Price (₹)</Label>
         <Input
           id="askingPrice"
           name="askingPrice"

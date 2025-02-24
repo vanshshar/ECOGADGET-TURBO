@@ -186,7 +186,7 @@ export function RentDeviceForm() {
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between items-center bg-gray-50 p-4">
-                <span className="text-2xl font-bold text-green-600">${device.price}/day</span>
+                <span className="text-2xl font-bold text-green-600">₹{device.price}/day</span>
                 <Button className="bg-green-600 hover:bg-green-700">Rent Now</Button>
               </CardFooter>
             </Card>

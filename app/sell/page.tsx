@@ -1,19 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { NavBar } from "@/components/nav-bar"
-import { BulkSaleForm } from "@/components/bulk-sale-form"
+import { SellDeviceForm } from "@/components/sell-device-form"
 import { useUser } from '@/context/AuthContext'
 
-export default function BulkSalePage() {
-
-  const user = useUser();
-
-  if(!user) {
-    window.location.href = "http://localhost:3000/auth/login";
-  }
-
+export default function SellDevicePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <NavBar />
@@ -23,8 +16,8 @@ export default function BulkSalePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl font-bold mb-8">Bulk Sales</h1>
-          <BulkSaleForm />
+          <h1 className="text-3xl font-bold mb-8">Sell Your Device</h1>
+          <SellDeviceForm />
         </motion.div>
       </main>
     </div>
