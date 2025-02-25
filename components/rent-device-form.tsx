@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -13,42 +13,46 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import mac from '@/components/macbookm1.png';
 import sam from '@/components/samsungs21.png';
 import iphone from '@/components/iphone13.png';
+import axios from 'axios';
+import Link from "next/link"
 
-const devices = [
-  {
-    id: 1,
-    name: "iPhone 12 Pro",
-    images: [
-      iphone
-    ],
-    description: "Latest iPhone model with advanced camera system and 5G capability.",
-    price: 25,
-    rating: 4.8,
-    location: "New York, NY",
-  },
-  {
-    id: 2,
-    name: 'MacBook Pro 16"',
-    images: [
-      mac
-    ],
-    description: "Powerful laptop with Retina display and long battery life.",
-    price: 50,
-    rating: 4.9,
-    location: "San Francisco, CA",
-  },
-  {
-    id: 3,
-    name: "Sony A7 III",
-    images: [
-      sam
-    ],
-    description: "Full-frame mirrorless camera with excellent low-light performance.",
-    price: 40,
-    rating: 4.7,
-    location: "Los Angeles, CA",
-  },
-]
+// const devices = [
+//   {
+//     id: 1,
+//     name: "iPhone 12 Pro",
+//     images: [
+//       iphone
+//     ],
+//     description: "Latest iPhone model with advanced camera system and 5G capability.",
+//     price: 25,
+//     rating: 4.8,
+//     location: "New York, NY",
+//   },
+//   {
+//     id: 2,
+//     name: 'MacBook Pro 16"',
+//     images: [
+//       mac
+//     ],
+//     description: "Powerful laptop with Retina display and long battery life.",
+//     price: 50,
+//     rating: 4.9,
+//     location: "San Francisco, CA",
+//   },
+//   {
+//     id: 3,
+//     name: "Sony A7 III",
+//     images: [
+//       sam
+//     ],
+//     description: "Full-frame mirrorless camera with excellent low-light performance.",
+//     price: 40,
+//     rating: 4.7,
+//     location: "Los Angeles, CA",
+//   },
+// ]
+
+const images = [iphone, sam, mac];
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -57,6 +61,23 @@ const fadeInUp = {
 }
 
 export function RentDeviceForm() {
+
+  const [devices, setDevices] = useState<any[]>([]);
+
+  useEffect(() => {
+    let fetchDevices = async() => {
+      const ds = await axios.get("http://localhost:4000/rent/devices");
+
+      const result = ds.data;
+      result.devices.forEach((device: any) => {
+        device.images = [images[Math.floor(Math.random() * images.length)]];
+        setDevices((prevData: any) => [...prevData, device]);
+      });
+    }
+
+    fetchDevices();
+  }, []);
+
   const [searchParams, setSearchParams] = useState({
     deviceType: "",
     location: "",
@@ -141,7 +162,7 @@ export function RentDeviceForm() {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {devices.map((device, index) => (
           <motion.div
-            key={device.id}
+            key={device._id}
             initial="initial"
             animate="animate"
             variants={fadeInUp}
@@ -186,8 +207,8 @@ export function RentDeviceForm() {
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between items-center bg-gray-50 p-4">
-                <span className="text-2xl font-bold text-green-600">₹{device.price}/day</span>
-                <Button className="bg-green-600 hover:bg-green-700">Rent Now</Button>
+                <span className="text-2xl font-bold text-green-600">₹{device.dailyRate}/day</span>
+                <Link href={`/borrow/device/${device._id}`} className="px-4 py-2 rounded-lg text-white bg-green-600 hover:bg-green-700">Rent Now</Link>
               </CardFooter>
             </Card>
           </motion.div>

@@ -12,13 +12,7 @@ import { Wrench, UserCircle } from 'lucide-react'
 import { useUser } from '@/context/AuthContext'
 
 export default function RepairPage() {
-  const [activeTab, setActiveTab] = useState("user")
-
-  const user = useUser();
-
-  if(!user) {
-    window.location.href = "http://localhost:3000/auth/login";
-  }
+  const [activeTab, setActiveTab] = useState("user");
 
   return (
     <div className="min-h-screen bg-gray-50">

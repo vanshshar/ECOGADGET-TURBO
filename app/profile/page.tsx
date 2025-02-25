@@ -23,12 +23,6 @@ const ProfilePage = () => {
     }
   });
 
-  useEffect(() => {
-    if (!user) {
-      window.location.href = "http://localhost:3000/auth/login";
-    }
-  }, [user]);
-
   if (!user) return null;
 
   const handleInputChange = (e) => {

@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
+import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export function TechnicianApplicationForm() {
   const [formData, setFormData] = useState({
@@ -14,7 +16,7 @@ export function TechnicianApplicationForm() {
     email: '',
     phone: '',
     experience: '',
-    specialties: [],
+    specialties: '',
     availability: '',
     resume: null,
   })
@@ -36,10 +38,35 @@ export function TechnicianApplicationForm() {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    // Here you would typically send the form data to your server
-    console.log('Form submitted:', formData)
-    // Implement the API call to submit the application
+    e.preventDefault();
+
+    const result = await axios({
+      method: 'post',
+      url: 'http://localhost:4000/repair/technician',
+      data: formData
+    });
+
+    const response = result.data;
+
+    await Swal.fire({
+      toast: false,
+      timer: 2000,
+      showConfirmButton: true,
+      title: response.msg,
+      icon: response.success ? 'success' : 'error'
+    });
+
+    setFormData({
+      fullName: '',
+      email: '',
+      phone: '',
+      experience: '',
+      specialties: '',
+      availability: '',
+      resume: null,
+    })
+
+    return;
   }
 
   return (

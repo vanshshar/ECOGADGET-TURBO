@@ -11,13 +11,6 @@ import { useUser } from '@/context/AuthContext'
 export default function RefurbishedGadgetsPage() {
   const [filters, setFilters] = useState({})
   const user = useUser();
-
-
-  useEffect(() => {
-    if(!user) {
-      window.location.href = "http://localhost:3000/auth/login";
-    }
-  }, [user]);
   
 
   return (

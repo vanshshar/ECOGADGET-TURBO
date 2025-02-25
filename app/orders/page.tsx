@@ -99,16 +99,6 @@ const getStatusColor = (status: string) => {
 
 export default function OrdersPage() {
 
-    const user = useUser();
-
-    useEffect(() => {
-        if(!user) {
-            window.location.href = "http://localhost:3000/auth/login";
-        }
-    }, [user]);
-
-    if(!user) return null;
-
   return (
     <>
     <NavBar />

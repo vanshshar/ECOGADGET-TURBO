@@ -9,6 +9,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Upload } from "lucide-react"
+import axios from "axios"
+import Swal from "sweetalert2"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -47,12 +49,38 @@ export function GiveDeviceForm() {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    // Handle form submission
-    console.log("Form submitted:", {
-      ...formData,
-      deviceImages: formData.deviceImages.map((file) => file.name),
-    })
+    e.preventDefault();
+
+    const result = await axios({
+      method: "post",
+      url: 'http://localhost:4000/borrow/give',
+      data: formData
+    });
+
+    const response = result.data;
+
+    await Swal.fire({
+      toast: false,
+      timer: 2000,
+      timerProgressBar: true,
+      showCancelButton: false,
+      title: response.msg,
+      icon: response.success ? 'success' : 'warning'
+    });
+
+    setFormData({
+      deviceName: "",
+      deviceType: "",
+      description: "",
+      dailyRate: "",
+      location: "",
+      availableFrom: "",
+      availableTo: "",
+      termsAgreed: false,
+      deviceImages: [],
+    });
+
+    return;
   }
 
   return (

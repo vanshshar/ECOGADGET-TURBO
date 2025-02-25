@@ -16,23 +16,12 @@ const ProfilePage = () => {
     console.log(user);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [formData, setFormData] = useState({
     username: user.username,
     email: user.email,
     phone: user.phone,
     address: user.address,
   });
-
-  useEffect(() => {
-    // Check authentication status
-    // This replaces the AuthContext
-    if (!isAuthenticated) {
-      window.location.href = "/login";
-    }
-  }, [isAuthenticated]);
-
-  if (!isAuthenticated) return null;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

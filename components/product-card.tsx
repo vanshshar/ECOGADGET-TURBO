@@ -42,14 +42,6 @@ export function ProductCard({
   const [isSaved, setIsSaved] = useState(false)
   const savings = originalPrice - price
 
-  const user = useUser();
-
-  useEffect(() => {
-    if(!user) {
-      window.location.href = "http://localhost:3000/auth/login";
-    }
-  }, [user]);
-
   useEffect(() => {
     const script = document.createElement("script");
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';

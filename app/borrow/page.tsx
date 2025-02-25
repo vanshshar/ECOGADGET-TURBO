@@ -17,14 +17,6 @@ const fadeInUp = {
 
 export default function BorrowPage() {
 
-  const user = useUser();
-
-  useEffect(() => {
-    if(!user) {
-      window.location.href = "http://localhost:3000/auth/login";
-    }
-  }, [user]);
-
   return (
     <div className="min-h-screen bg-gray-50">
       <NavBar />

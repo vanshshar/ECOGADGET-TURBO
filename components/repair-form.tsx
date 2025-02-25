@@ -15,9 +15,60 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import axios from "axios"
+import Swal from "sweetalert2"
 
 export function RepairForm() {
-  const [partsOption, setPartsOption] = useState("need-parts")
+  const [partsOption, setPartsOption] = useState("need-parts");
+
+  const [formData, setFormData] = useState({
+    deviceType: '',
+    brand: '',
+    issue: '',
+    partsRequired: '',
+    date: '',
+    time: '',
+    address: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData((prevData) => {
+      return { ...prevData, [e.target.name]: e.target.value }
+    });
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const result = await axios({
+      method: "post",
+      url: "http://localhost:4000/repair",
+      data: formData
+    });
+
+    const response = result.data;
+
+    await Swal.fire({
+      toast: false,
+      icon: response.success ? 'success' : 'error',
+      title: response.msg,
+      showConfirmButton: true,
+      position: 'center',
+      timer: 2000
+    });
+
+    setFormData({
+      deviceType: '',
+      brand: '',
+      issue: '',
+      partsRequired: '',
+      date: '',
+      time: '',
+      address: ''
+    });
+
+    return;
+  }
 
   return (
     <section className="py-16 bg-gray-50">
@@ -32,12 +83,12 @@ export function RepairForm() {
               <CardTitle className="text-2xl">Schedule a Repair</CardTitle>
             </CardHeader>
             <CardContent>
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="device-type">Device Type</Label>
-                      <Select>
+                      <Select value={formData.deviceType} onValueChange={(val) => setFormData((prevVal)=> ({ ...prevVal, deviceType: val}))}>
                         <SelectTrigger id="device-type">
                           <SelectValue placeholder="Select device type" />
                         </SelectTrigger>
@@ -52,13 +103,16 @@ export function RepairForm() {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="brand">Brand</Label>
-                      <Input id="brand" placeholder="Enter device brand" />
+                      <Input name="brand" value={formData.brand} onChange={handleChange} id="brand" placeholder="Enter device brand" />
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="issue">Describe the Issue</Label>
                     <Textarea
+                      name="issue"
+                      value={formData.issue}
+                      onChange={handleChange}
                       id="issue"
                       placeholder="Please describe the problem with your device"
                       className="min-h-[100px]"
@@ -68,8 +122,8 @@ export function RepairForm() {
                   <div className="space-y-2">
                     <Label>Parts Required</Label>
                     <RadioGroup
-                      defaultValue={partsOption}
-                      onValueChange={setPartsOption}
+                      defaultValue={formData.partsRequired}
+                      onValueChange={(value) => setFormData((prevVal) => ({ ...prevVal, partsRequired: value }))}
                       className="flex flex-col space-y-2"
                     >
                       <div className="flex items-center space-x-2">
@@ -90,11 +144,11 @@ export function RepairForm() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="date">Preferred Date</Label>
-                      <Input id="date" type="date" />
+                      <Input name="date" value={formData.date} onChange={handleChange} id="date" type="date" />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="time">Preferred Time</Label>
-                      <Input id="time" type="time" />
+                      <Input id="time" value={formData.time} name="time" onChange={handleChange} type="time" />
                     </div>
                   </div>
 
@@ -104,6 +158,9 @@ export function RepairForm() {
                       id="address"
                       placeholder="Enter your complete address"
                       className="min-h-[80px]"
+                      value={formData.address}
+                      name="address"
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
