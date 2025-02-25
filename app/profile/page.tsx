@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { NavBar } from "@/components/nav-bar";
 import { useUser } from "@/context/AuthContext";
 import { Pencil, Save, User } from "lucide-react";
+import ProtectedRoute from '@/context/ProtectedRoute';
 
 const ProfilePage = () => {
   const user = useUser();
@@ -39,7 +40,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <>
+    <ProtectedRoute>
       <NavBar />
       <section className="min-h-screen bg-gray-50 py-8 px-4">
         <motion.div 
@@ -178,7 +179,7 @@ const ProfilePage = () => {
           </motion.div>
         </motion.div>
       </section>
-    </>
+    </ProtectedRoute>
   );
 };
 

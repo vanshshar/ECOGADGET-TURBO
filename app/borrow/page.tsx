@@ -8,6 +8,7 @@ import { GiveDeviceForm } from "@/components/give-device-form"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
 import { useUser } from "@/context/AuthContext"
+import ProtectedRoute from "@/context/ProtectedRoute"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -18,6 +19,7 @@ const fadeInUp = {
 export default function BorrowPage() {
 
   return (
+    <ProtectedRoute>
     <div className="min-h-screen bg-gray-50">
       <NavBar />
       <main>
@@ -66,6 +68,7 @@ export default function BorrowPage() {
         </section>
       </main>
     </div>
+    </ProtectedRoute>
   )
 }
 

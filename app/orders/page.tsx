@@ -11,6 +11,7 @@ import m1 from '@/components/macbookm1.png';
 import { NavBar } from "@/components/nav-bar"
 import { useUser } from "@/context/AuthContext"
 import { useEffect } from "react"
+import ProtectedRoute from "@/context/ProtectedRoute";
 
 // Simulated order data using the products from your existing code
 const orders = [
@@ -100,7 +101,7 @@ const getStatusColor = (status: string) => {
 export default function OrdersPage() {
 
   return (
-    <>
+    <ProtectedRoute>
     <NavBar />
     <section className="min-h-screen bg-gray-50 py-8 px-4">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="container mx-auto">
@@ -169,6 +170,6 @@ export default function OrdersPage() {
         </div>
       </motion.div>
     </section>
-    </>
+    </ProtectedRoute>
   )
 }

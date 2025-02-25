@@ -5,9 +5,11 @@ import { motion } from 'framer-motion'
 import { NavBar } from "@/components/nav-bar"
 import { SellDeviceForm } from "@/components/sell-device-form"
 import { useUser } from '@/context/AuthContext'
+import ProtectedRoute from '@/context/ProtectedRoute'
 
 export default function SellDevicePage() {
   return (
+    <ProtectedRoute>
     <div className="min-h-screen bg-gray-50">
       <NavBar />
       <main className="container mx-auto py-8 px-4">
@@ -21,6 +23,7 @@ export default function SellDevicePage() {
         </motion.div>
       </main>
     </div>
+    </ProtectedRoute>
   )
 }
 

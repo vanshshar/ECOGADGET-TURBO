@@ -18,6 +18,7 @@ import iphone from '@/components/iphone13.png';
 import sam from '@/components/samsungs21.png';
 import mac from '@/components/macbookm1.png';
 import { NavBar } from "@/components/nav-bar"
+import ProtectedRoute from "@/context/ProtectedRoute"
 
 const images = [iphone,sam, mac];
 
@@ -31,7 +32,50 @@ export default function RentPage() {
 
   const [deviceData, setDeviceData] = React.useState<any>(null);
 
+  const handleRentClick = async(e) => {
+    let amount = deviceData.dailyRate;
+    amount = parseFloat(amount);
+    amount += (32/100) * amount;
+    amount = amount.toFixed(2).toString();
+    
+    amount = amount.split(".")[0] + amount.split(".")[1];
+    amount = Number(amount);
+
+    const currency = "INR";
+
+    const result = await axios({
+      method: "post",
+      data: { amount, currency },
+      url: "http://localhost:4000/orders/create"
+    });
+
+    const response = result.data;
+
+    console.log(response);
+
+    const options = {
+      "key": response.key,
+      "amount": response.amount,
+      "currency": "INR",
+      "name": "EcoGadget",
+      "order_id": response.id,
+      "callback_url": "http://localhost:3000/orders",
+    };
+
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+
+    e.preventDefault();
+  }
+
   React.useEffect(() => {
+
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+
     if(!deviceId) return;
 
     const fetchDevice = async() => {
@@ -90,7 +134,7 @@ export default function RentPage() {
   }
 
   return (
-    <>
+    <ProtectedRoute>
     <NavBar />
     <div className="container mx-auto px-4 py-8">
       <div className="grid gap-8 md:grid-cols-2">
@@ -139,6 +183,8 @@ export default function RentPage() {
               <span className="text-muted-foreground">Daily Rate</span>
               <span className="text-xl font-bold">₹ {deviceData.dailyRate}</span>
             </div>
+            <span className="text-muted-foreground ml-[375px]">excluding 30% Security fee</span>
+            <span className="text-muted-foreground ml-[375px]"> + 2% Platform fee</span>
 
             {/* <div className="space-y-2">
               <label className="text-sm text-muted-foreground">Select Rental Date</label>
@@ -173,7 +219,7 @@ export default function RentPage() {
               </label>
             </div>
 
-            <Button className="w-full" disabled={!agreed}>
+            <Button onClick={handleRentClick} className="w-full" disabled={!agreed}>
               Rent Now
             </Button>
           </div>
@@ -194,6 +240,6 @@ export default function RentPage() {
         </div>
       </div>
     </div>
-    </>
+    </ProtectedRoute>
   )
 }

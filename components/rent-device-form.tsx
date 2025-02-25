@@ -203,7 +203,8 @@ export function RentDeviceForm() {
                 </div>
                 <div className="flex items-center text-sm text-gray-500">
                   <CalendarIcon className="w-4 h-4 mr-1" />
-                  <span>Available Now</span>
+                  <span className="mr-3">Available Now</span>
+                  <span>30% Security fee+2% platform fee</span>
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between items-center bg-gray-50 p-4">

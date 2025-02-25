@@ -10,11 +10,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Wrench, UserCircle } from 'lucide-react'
 import { useUser } from '@/context/AuthContext'
+import ProtectedRoute from '@/context/ProtectedRoute'
 
 export default function RepairPage() {
   const [activeTab, setActiveTab] = useState("user");
 
   return (
+    <ProtectedRoute>
     <div className="min-h-screen bg-gray-50">
       <NavBar />
       <main className="container mx-auto py-10 px-4">
@@ -61,6 +63,7 @@ export default function RepairPage() {
         </motion.div>
       </main>
     </div>
+    </ProtectedRoute>
   )
 }
 

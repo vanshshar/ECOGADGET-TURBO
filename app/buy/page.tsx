@@ -6,6 +6,7 @@ import { NavBar } from "@/components/nav-bar"
 import { ProductsGrid } from "@/components/products-grid"
 import { FilterSidebar } from "@/components/filter-sidebar"
 import { useUser } from '@/context/AuthContext'
+import ProtectedRoute from '@/context/ProtectedRoute'
 
 
 export default function RefurbishedGadgetsPage() {
@@ -14,6 +15,7 @@ export default function RefurbishedGadgetsPage() {
   
 
   return (
+    <ProtectedRoute>
     <div className="min-h-screen bg-gray-50">
       <NavBar />
       <main className="container mx-auto py-8 px-4">
@@ -29,6 +31,7 @@ export default function RefurbishedGadgetsPage() {
         </motion.div>
       </main>
     </div>
+    </ProtectedRoute>
   )
 }
 
