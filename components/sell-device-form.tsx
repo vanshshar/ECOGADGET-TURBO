@@ -11,6 +11,7 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 
 export function SellDeviceForm() {
+
   const [formData, setFormData] = useState({
     deviceType: '',
     brand: '',
@@ -18,6 +19,7 @@ export function SellDeviceForm() {
     condition: '',
     description: '',
     askingPrice: '',
+    image: ''
   })
 
   const handleInputChange = (e) => {
@@ -28,6 +30,20 @@ export function SellDeviceForm() {
     }))
   }
 
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreview(reader.result);
+    };
+    reader.readAsDataURL(selectedFile);
+  };
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -49,11 +65,13 @@ export function SellDeviceForm() {
         condition: '',
         description: '',
         askingPrice: '',
+        image: ''
       });
 
       return;
     }
-
+    if (!file) return alert("Please select a file");
+    
     const result = await axios({
       method: "post",
       data: formData,
@@ -76,10 +94,13 @@ export function SellDeviceForm() {
       condition: '',
       description: '',
       askingPrice: '',
+      image: ''
     });
 
     return;
   }
+
+  
 
   return (
     <motion.form
@@ -158,6 +179,18 @@ export function SellDeviceForm() {
           id="description"
           name="description"
           value={formData.description}
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="image">Images of your Product</Label>
+        <Input
+          id="image"
+          name="image"
+          type="file"
+          value={formData.image}
           onChange={handleInputChange}
           required
         />

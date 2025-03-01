@@ -7,7 +7,7 @@ import { useUser } from "./AuthContext";
 const ProtectedRoute = ({ children, redirectTo = "/auth/login" }) => {
     const user = useUser();
     const router = useRouter();
-
+    console.log(user);
     useEffect(() => {
         if(!user) {
             router.replace(redirectTo);
