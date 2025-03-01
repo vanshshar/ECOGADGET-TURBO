@@ -1,9 +1,17 @@
-"use client"
-import { useState, useEffect, useRef } from "react"
-import { Menu, User, CreditCard, Package, Headphones, Settings, LogOut } from "lucide-react"
-import Link from "next/link"
-import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
+"use client";
+import { useState, useEffect, useRef } from "react";
+import {
+  Menu,
+  User,
+  CreditCard,
+  Package,
+  Headphones,
+  Settings,
+  LogOut,
+} from "lucide-react";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
 
 import {
   NavigationMenu,
@@ -12,15 +20,19 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
-import axios from 'axios';
-import { useUser } from '../context/AuthContext.jsx';
-import Swal from 'sweetalert2';
-
+} from "@/components/ui/navigation-menu";
+import axios from "axios";
+import { useUser } from "../context/AuthContext.jsx";
+import Swal from "sweetalert2";
 
 export function NavBar() {
-   const dropdownRef = useRef(null);
+  const dropdownRef = useRef(null);
   const [showAuthOptions, setShowAuthOptions] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleSearch = async(e) => {
+    e.preventDefault();
+  }
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -42,9 +54,9 @@ export function NavBar() {
 
     const result = await axios({
       method: "post",
-      data: { user } ,
+      data: { user },
       withCredentials: true,
-      url: 'http://localhost:4000/logout'
+      url: "http://localhost:4000/logout",
     });
     const response = result.data;
 
@@ -53,14 +65,16 @@ export function NavBar() {
       timer: 2000,
       timerProgressBar: true,
       title: response.msg,
-      icon: response.success ? 'success' : 'warning',
+      icon: response.success ? "success" : "warning",
       showConfirmButton: false,
-      color: response.success ? '#bff79e' : '#f7a49e',
-      position: 'top'
+      color: response.success ? "#bff79e" : "#f7a49e",
+      position: "top",
     });
 
-    { window.location.href = 'http://localhost:3000/' };
-  }
+    {
+      window.location.href = "http://localhost:3000/";
+    }
+  };
 
   return (
     <header className="px-10 sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -74,8 +88,7 @@ export function NavBar() {
         </Link>
         <NavigationMenu className="hidden md:flex">
           <NavigationMenuList>
-
-          <NavigationMenuItem>
+            <NavigationMenuItem>
               <Link href="/buy" legacyBehavior passHref>
                 <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
                   Buy
@@ -126,18 +139,26 @@ export function NavBar() {
               <NavigationMenuTrigger>Borrow</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <div className="grid gap-3 p-6 w-[400px] md:w-[500px] lg:w-[600px]">
-                  <Link href="/borrow?tab=rent" className="group grid gap-1 p-4 hover:bg-muted rounded-lg">
+                  <Link
+                    href="/borrow?tab=rent"
+                    className="group grid gap-1 p-4 hover:bg-muted rounded-lg"
+                  >
                     <div className="font-medium">Rent a Device</div>
-                    <div className="text-sm text-muted-foreground">Borrow the latest tech for your needs</div>
+                    <div className="text-sm text-muted-foreground">
+                      Borrow the latest tech for your needs
+                    </div>
                   </Link>
-                  <Link href="/borrow?tab=give" className="group grid gap-1 p-4 hover:bg-muted rounded-lg">
+                  <Link
+                    href="/borrow?tab=give"
+                    className="group grid gap-1 p-4 hover:bg-muted rounded-lg"
+                  >
                     <div className="font-medium">Give Your Device for Rent</div>
-                    <div className="text-sm text-muted-foreground">Earn by sharing your devices</div>
+                    <div className="text-sm text-muted-foreground">
+                      Earn by sharing your devices
+                    </div>
                   </Link>
                 </div>
               </NavigationMenuContent>
-
-              
             </NavigationMenuItem>
             {/* <NavigationMenuItem>
               <Link href="/repair" legacyBehavior passHref>
@@ -147,35 +168,60 @@ export function NavBar() {
               </Link>
             </NavigationMenuItem> */}
 
-
-            
             <NavigationMenuItem>
               <NavigationMenuTrigger>Repair</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <div className="grid gap-3 p-6 w-[400px] md:w-[500px] lg:w-[600px]">
-                  <Link href="/repair" className="group grid gap-1 p-4 hover:bg-muted rounded-lg">
+                  <Link
+                    href="/repair"
+                    className="group grid gap-1 p-4 hover:bg-muted rounded-lg"
+                  >
                     <div className="font-medium">Schedule a Repair</div>
-                    <div className="text-sm text-muted-foreground">Get your devices fixed by experts</div>
+                    <div className="text-sm text-muted-foreground">
+                      Get your devices fixed by experts
+                    </div>
                   </Link>
-                  <Link href="/repair" className="group grid gap-1 p-4 hover:bg-muted rounded-lg">
+                  <Link
+                    href="/repair"
+                    className="group grid gap-1 p-4 hover:bg-muted rounded-lg"
+                  >
                     <div className="font-medium">Join as a Technician</div>
-                    <div className="text-sm text-muted-foreground">Become a certified repair professional</div>
+                    <div className="text-sm text-muted-foreground">
+                      Become a certified repair professional
+                    </div>
                   </Link>
                 </div>
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
+
+        <div className="ml-auto">
+          <input
+            type="search"
+            placeholder="Tell us how you we can help you !"
+            className="px-4 py-1 w-[500px]  border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500"
+          />
+          <button onClick={handleSearch} className="px-4 ml-1 py-[0.40rem] bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+            Search
+          </button>
+        </div>
+
+
         <div className="flex items-center ml-auto space-x-4">
           <div className="relative">
-            <Button variant="ghost" size="icon" onClick={() => setShowAuthOptions(!showAuthOptions)}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowAuthOptions(!showAuthOptions)}
+            >
               <User className="h-5 w-5" />
               <span className="sr-only">Account</span>
             </Button>
             <AnimatePresence>
               {showAuthOptions && (
                 <motion.div
-                ref={dropdownRef}
+                  ref={dropdownRef}
                   initial={{ opacity: 0, y: 10, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
@@ -183,46 +229,78 @@ export function NavBar() {
                   className="absolute right-0 mt-2 w-[380px] rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
                   <div className="p-6">
-                    { !user && <div className="flex items-center space-x-4 mb-6">
-                      <User className="h-8 w-8 text-green-600" />
-                      <div>
-                        <h3 className="text-lg font-semibold">Get more with an account</h3>
+                    {!user && (
+                      <div className="flex items-center space-x-4 mb-6">
+                        <User className="h-8 w-8 text-green-600" />
+                        <div>
+                          <h3 className="text-lg font-semibold">
+                            Get more with an account
+                          </h3>
+                        </div>
                       </div>
-                    </div> }
-                    { !user && <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="flex items-start space-x-3">
-                        <Package className="h-5 w-5 text-green-600 mt-0.5" />
-                        <span className="text-sm">Free shipping on orders $35+</span>
+                    )}
+                    {!user && (
+                      <div className="grid grid-cols-2 gap-4 mb-6">
+                        <div className="flex items-start space-x-3">
+                          <Package className="h-5 w-5 text-green-600 mt-0.5" />
+                          <span className="text-sm">
+                            Free shipping on orders $35+
+                          </span>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <CreditCard className="h-5 w-5 text-green-600 mt-0.5" />
+                          <span className="text-sm">Save payment methods</span>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <Headphones className="h-5 w-5 text-green-600 mt-0.5" />
+                          <span className="text-sm">Priority support</span>
+                        </div>
+                        <div className="flex items-start space-x-3">
+                          <Settings className="h-5 w-5 text-green-600 mt-0.5" />
+                          <span className="text-sm">Order tracking</span>
+                        </div>
                       </div>
-                      <div className="flex items-start space-x-3">
-                        <CreditCard className="h-5 w-5 text-green-600 mt-0.5" />
-                        <span className="text-sm">Save payment methods</span>
-                      </div>
-                      <div className="flex items-start space-x-3">
-                        <Headphones className="h-5 w-5 text-green-600 mt-0.5" />
-                        <span className="text-sm">Priority support</span>
-                      </div>
-                      <div className="flex items-start space-x-3">
-                        <Settings className="h-5 w-5 text-green-600 mt-0.5" />
-                        <span className="text-sm">Order tracking</span>
-                      </div>
-                    </div> }
+                    )}
                     <div className="space-y-3">
-                      <Button className="w-full bg-green-600 hover:bg-green-700" asChild>
-                        {user ? <h1>{user.username}</h1> : <Link href="/auth/login">Sign In</Link>}
+                      <Button
+                        className="w-full bg-green-600 hover:bg-green-700"
+                        asChild
+                      >
+                        {user ? (
+                          <h1>{user.username}</h1>
+                        ) : (
+                          <Link href="/auth/login">Sign In</Link>
+                        )}
                       </Button>
-                      {user ? <Button onClick={handleLogoutClick} variant="outline" className="w-full" asChild><p>Logout</p></Button> : <Button variant="outline" className="w-full" asChild>
-                        <Link href="/auth/signup">Create Account</Link>
-                      </Button>}
+                      {user ? (
+                        <Button
+                          onClick={handleLogoutClick}
+                          variant="outline"
+                          className="w-full"
+                          asChild
+                        >
+                          <p>Logout</p>
+                        </Button>
+                      ) : (
+                        <Button variant="outline" className="w-full" asChild>
+                          <Link href="/auth/signup">Create Account</Link>
+                        </Button>
+                      )}
                     </div>
                   </div>
                   <div className="border-t px-6 py-4">
                     <div className="space-y-4">
-                      <Link href="/account" className="flex items-center space-x-3 text-sm hover:text-green-600">
+                      <Link
+                        href="/account"
+                        className="flex items-center space-x-3 text-sm hover:text-green-600"
+                      >
                         <User className="h-5 w-5" />
                         <span>Your Account</span>
                       </Link>
-                      <Link href="/orders" className="flex items-center space-x-3 text-sm hover:text-green-600">
+                      <Link
+                        href="/orders"
+                        className="flex items-center space-x-3 text-sm hover:text-green-600"
+                      >
                         <Package className="h-5 w-5" />
                         <Link href="/orders">Your Orders</Link>
                       </Link>
@@ -239,6 +317,5 @@ export function NavBar() {
         </div>
       </div>
     </header>
-  )
+  );
 }
-

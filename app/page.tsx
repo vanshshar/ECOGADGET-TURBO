@@ -23,7 +23,7 @@ export default function Home() {
         <HeroSection sectionRef={sectionRef} learnMoreRef={learnMoreRef} />
         <FeaturedDeals sectionRef={sectionRef} />
         <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-4 pt-2">
             <h2 className="text-3xl font-bold mb-8 text-center">Borrow Devices</h2>
             <p className="text-xl text-center mb-12 text-gray-600">
               Rent the latest tech or earn by sharing your devices
