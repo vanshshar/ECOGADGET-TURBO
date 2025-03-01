@@ -122,7 +122,15 @@ export default function AdminDashboard() {
   const handleEditProduct = (product: Product) => {
     setSelectedProduct(product);
     setIsEditProductOpen(true);
+    // const updatedProduct = async(product)=>{
+    //   const products = await axios.post("http://localhost:4000/product/update", {product});
+    //   return products;
+    // }
+    // updatedProduct(product);
+    // setProducts({...product, products});
   }
+
+  
 
   const handleVerifyRequest = (request: SellingRequest) => {
     setSelectedRequest(request);
@@ -607,19 +615,19 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="name">Product Name</Label>
-                <Input id="name" placeholder="Enter product name" />
+                <Input id="name" placeholder="Enter product name" name = "productName" />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="category">Category</Label>
                 <Select>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select category" />
+                    <SelectValue placeholder="Select category" name = "category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="smartphones">Smartphones</SelectItem>
-                    <SelectItem value="laptops">Laptops</SelectItem>
-                    <SelectItem value="tablets">Tablets</SelectItem>
-                    <SelectItem value="accessories">Accessories</SelectItem>
+                    <SelectItem name = "category" value="smartphones">Smartphones</SelectItem>
+                    <SelectItem name = "category" value="laptops">Laptops</SelectItem>
+                    <SelectItem name = "category" value="tablets">Tablets</SelectItem>
+                    <SelectItem name = "category" value="accessories">Accessories</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -627,27 +635,27 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="price">Price ($)</Label>
-                <Input id="price" type="number" placeholder="0.00" />
+                <Input id="price" name = "price" type="number" placeholder="0.00" />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="stock">Stock</Label>
-                <Input id="stock" type="number" placeholder="0" />
+                <Input id="stock" name = "stock" type="number" placeholder="0" />
               </div>
             </div>
             <div className="grid gap-2">
               <Label htmlFor="description">Description</Label>
-              <Textarea id="description" placeholder="Enter product description" />
+              <Textarea id="description" name = "description" placeholder="Enter product description" />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="image">Product Image</Label>
-              <Input id="image" type="file" />
+              <Input id="image" type="file" name = "image"/>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="condition">Condition</Label>
                 <Select>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select condition" />
+                    <SelectValue placeholder="Select condition" name = "condition"/>
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="new">New</SelectItem>
@@ -676,7 +684,7 @@ export default function AdminDashboard() {
             <Button variant="outline" onClick={() => setIsAddProductOpen(false)}>
               Cancel
             </Button>
-            <Button type="submit">Save Product</Button>
+            <Button type="submit" onClick={(selectedProduct) => addNewProduct(selectedProduct)}>Save Product</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -722,11 +730,11 @@ export default function AdminDashboard() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="edit-description">Description</Label>
-                <Textarea id="edit-description" placeholder="Enter product description" />
+                <Textarea id="edit-description" placeholder="Enter product description" defaultValue={selectedProduct.description}/>
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="edit-image">Product Image</Label>
-                <Input id="edit-image" type="file" />
+                <Input id="edit-image" type="file" defaultValue={selectedProduct.images}/>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">

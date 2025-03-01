@@ -32,6 +32,10 @@ export function NavBar() {
 
   const handleSearch = async(e) => {
     e.preventDefault();
+
+    if(!searchInput.length) {
+      return;
+    }
   }
 
   useEffect(() => {
