@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { Currency, Heart } from 'lucide-react'
 import { useState } from 'react'
 import { StarRating } from './star-rating'
-import { CountdownTimer } from './countdown-timer'
+// import { CountdownTimer } from './countdown-timer'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import axios from "axios";
@@ -27,20 +27,15 @@ interface ProductCardProps {
 }
 
 export function ProductCard({
-  id,
-  title,
+  productName,
   image,
   price,
-  originalPrice,
   rating,
-  reviewCount,
-  endTime,
-  freeItems,
   condition,
   warranty
 }: ProductCardProps) {
   const [isSaved, setIsSaved] = useState(false)
-  const savings = originalPrice - price
+  // const savings = originalPrice - price
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -59,43 +54,43 @@ export function ProductCard({
       <div className="relative aspect-square">
         <Image
           src={image || "/placeholder.svg"}
-          alt={title}
+          alt='img'
           fill
           className="object-cover transform group-hover:scale-105 transition-transform duration-300"
         />
-        {savings > 0 && (
+        {/* {savings > 0 && (
           <Badge className="absolute top-2 right-2 bg-red-600">
             Save ₹{savings.toFixed(2)}
-          </Badge>
-        )}
+          </Badge> */}
+        {/* )} */}
       </div>
 
-      <div className="p-4 space-y-3">
+      <div className="pt-3 p-4 space-y-3 pb-5">
         <div className="min-h-[2.5rem]">
-          <h3 className="font-bold text-md">{title}</h3>
+          <h3 className="font-bold text-lg">{productName}</h3>
         </div>
 
-        <StarRating rating={rating} reviewCount={reviewCount} />
+        <StarRating rating={rating} />
 
         <div className="flex items-baseline gap-2">
           <span className="text-2xl font-bold">₹{price.toFixed(2)}</span>
-          {originalPrice > price && (
+          {/* {originalPrice > price && (
             <span className="text-sm text-gray-500 line-through">
               Was ₹{originalPrice.toFixed(2)}
             </span>
-          )}
+          )} */}
         </div>
         <p className='text-sm font-normal text-red-500'>Deal ends soon!</p>
         <div className="space-y-2 text-sm text-gray-600">
           <p>Condition: {condition}</p>
-          <p>Warranty: {warranty}</p>
+          <p>Warranty: {warranty / 12} Years</p>
         </div>
 
-        {freeItems && freeItems.length > 0 && (
+        {/* {freeItems && freeItems.length > 0 && (
           <div className="text-sm text-green-600">
             {freeItems.length} free {freeItems.length === 1 ? 'item' : 'items'} with purchase
-          </div>
-        )}
+          </div> */}
+        {/* )} */}
 
         
 

@@ -2,59 +2,31 @@
 
 import { motion } from 'framer-motion'
 import { ProductCard } from './product-card'
-const iphone13 = require("./iphone13.png");
-const macbook = require("./macbookm1.png");
-const samsungs21 = require("./samsungs21.png");
+import { useEffect, useState } from 'react'
+import axios from 'axios';
+import { ProductList } from './product-list';
+// const iphone13 = require("./iphone13.png");
+// const macbook = require("./macbookm1.png");
+// const samsungs21 = require("./samsungs21.png");
 
-
-const products = [
-  {
-    id: '1',
-    title: 'Refurbished iPhone 13 Pro - 128GB',
-    image: iphone13,
-    price: 1.00,
-    originalPrice: 999.99,
-    rating: 4.5,
-    reviewCount: 128,
-    endTime: '2025-01-16T19:22:05',
-    freeItems: ['Premium Case', 'Screen Protector'],
-    condition: 'Excellent',
-    warranty: '1 Year'
-  },
-  {
-    id: '2',
-    title: 'MacBook Air M1 - Certified Refurbished',
-    image: macbook,
-    price: 799.99,
-    originalPrice: 999.99,
-    rating: 4.8,
-    reviewCount: 256,
-    endTime: '2025-01-16T19:22:05',
-    freeItems: ['Laptop Sleeve'],
-    condition: 'Like New',
-    warranty: '1 Year'
-  },
-  {
-    id: '3',
-    title: 'Samsung Galaxy S21 - Renewed',
-    image: samsungs21,
-    price: 449.99,
-    originalPrice: 799.99,
-    rating: 4.3,
-    reviewCount: 89,
-    endTime: '2025-01-16T19:22:05',
-    freeItems: ['Premium Case', 'Screen Protector'],
-    condition: 'Good',
-    warranty: '6 Months'
-  }
-]
 
 export function ProductsGrid() {
+  let [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(()=>{
+   const fetchProducts = async() => {
+        const productsList = await axios.get('http://localhost:4000/products');
+        setProducts(productsList.data.products);
+        setLoading(false);
+    }
+    fetchProducts();
+  }, []);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
-      {products.map((product, index) => (
+      {!loading && products.map((product, index) => (
         <motion.div
-          key={product.id}
+          key={product._id}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: index * 0.1 }}
